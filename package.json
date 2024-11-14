@@ -1,0 +1,13 @@
+{
+  "name": "chat-room",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd front && npm run dev",
+    "start:backend": "cd back && npm run dev"
+  },
+  "author": "alirezashn79",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
