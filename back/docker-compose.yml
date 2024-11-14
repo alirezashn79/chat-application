@@ -1,0 +1,21 @@
+version: "3"
+services:
+  db:
+    container_name: chat-db
+    image: postgres
+    restart: always
+    ports:
+      - 5421:5421
+    environment:
+      - POSTGRES_DB=chat-db
+      - POSTGRES_USER=alireza
+      - POSTGRES_PASSWORD=123456
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  adminer:
+    container_name: chat-admin
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
