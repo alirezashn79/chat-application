@@ -10,7 +10,6 @@ lerna-debug.log*
 node_modules
 front/node_modules
 back/node_modules
-back/data
 dist
 dist-ssr
 *.local
