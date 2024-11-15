@@ -1,3 +1,6 @@
-const FRONT_URL = "http://localhost:3000";
+import "dotenv/config";
 
-export { FRONT_URL };
+const FRONT_URL = "http://localhost:3000";
+const DB_URL = process.env.DB_URL;
+
+export { FRONT_URL, DB_URL };
