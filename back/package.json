@@ -20,17 +20,22 @@
   "author": "alirezashn79",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.36.2",
     "express": "^4.21.1",
-    "pg": "^8.13.1"
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.28.1",
     "nodemon": "^3.1.7",

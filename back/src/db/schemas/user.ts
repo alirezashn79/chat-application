@@ -11,7 +11,7 @@ const userSchema = pgTable("users", {
 });
 
 type User = Omit<InferSelectModel<typeof userSchema>, "password">;
-type NewUser = Omit<InferInsertModel<typeof userSchema>, "password">;
+type NewUser = InferInsertModel<typeof userSchema>;
 
 export type { User, NewUser };
 
