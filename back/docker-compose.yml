@@ -1,20 +1,20 @@
 version: "3.8"
 services:
   db:
-    container_name: chat-db
+    container_name: chat_db
     image: postgres
     restart: always
     ports:
-      - 5421:5421
+      - 5432:5432
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgres/data/postgresql/data
 
   adminer:
-    container_name: chat-admin
+    container_name: chat_admin
     image: adminer
     restart: always
     ports:
