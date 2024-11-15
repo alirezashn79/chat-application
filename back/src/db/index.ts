@@ -2,6 +2,9 @@ import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { userSchema } from "./schemas/user";
 import { DB_URL } from "../helpers/constants";
+import { messageSchema } from "./schemas/message";
+import { conversationSchema } from "./schemas/conversation";
+import { userConversationSchema } from "./schemas/user-conversation";
 
 function database() {
   try {
@@ -13,6 +16,9 @@ function database() {
 
     const combinedSchemas = {
       ...userSchema,
+      ...messageSchema,
+      ...conversationSchema,
+      ...userConversationSchema,
     };
 
     const db: NodePgDatabase<typeof combinedSchemas> = drizzle(pool, {
