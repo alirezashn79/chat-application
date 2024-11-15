@@ -6,28 +6,21 @@ import { messageSchema } from "./schemas/message";
 import { conversationSchema } from "./schemas/conversation";
 import { userConversationSchema } from "./schemas/user-conversation";
 
-function database() {
-  try {
-    const pool = new Pool({
-      connectionString: DB_URL,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 30000,
-    });
+const pool = new Pool({
+  connectionString: DB_URL,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 30000,
+});
 
-    const combinedSchemas = {
-      ...userSchema,
-      ...messageSchema,
-      ...conversationSchema,
-      ...userConversationSchema,
-    };
+const combinedSchemas = {
+  ...userSchema,
+  ...messageSchema,
+  ...conversationSchema,
+  ...userConversationSchema,
+};
 
-    const db: NodePgDatabase<typeof combinedSchemas> = drizzle(pool, {
-      schema: combinedSchemas,
-    });
-    return db;
-  } catch (error) {
-    console.log("DB error");
-  }
-}
+const db: NodePgDatabase<typeof combinedSchemas> = drizzle(pool, {
+  schema: combinedSchemas,
+});
 
-export { database };
+export default db;
