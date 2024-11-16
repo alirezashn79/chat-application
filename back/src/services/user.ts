@@ -74,3 +74,8 @@ export async function signInService(res: Response, body: SignInType) {
   ]);
   return userWithoutPassword;
 }
+
+export function signOutService(res: Response) {
+  res.clearCookie("token");
+  return true;
+}
