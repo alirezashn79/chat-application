@@ -5,6 +5,7 @@ import cors from "cors";
 import { FRONT_URL } from "./helpers/constants";
 import cookieParser from "cookie-parser";
 import createRouter from "./routes";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -15,13 +16,14 @@ app.use(
     origin: FRONT_URL,
     methods: ["POST", "GET"],
     credentials: true,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use("/api", createRouter());
+app.use(errorHandler);
 
 const server = http.createServer(app);
-const port = process.env.PORT ?? 3001;
+const port = Number(process.env.PORT) ?? 3001;
 
 server.listen(port, () => {
   console.log(`🔥🚀 Server is running on port http://localhost:${port}`);

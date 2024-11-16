@@ -1,11 +1,16 @@
-import { signInValidator, signUpValidator } from "../validators";
-import { z } from "zod";
-import { NewUser, User, userSchema } from "../db/schemas/user";
+import { NewUser, userSchema } from "../db/schemas/user";
 import db from "../db";
-import { getAvatar, omitFields, setCookie } from "../helpers/helper-functions";
+import {
+  createError,
+  getAvatar,
+  omitFields,
+  setCookie,
+} from "../helpers/helper-functions";
 import { compare, genSalt, hash } from "bcryptjs";
 import { Response } from "express";
 import { findUserByEmail } from "../helpers/db-helpers";
+import { z } from "zod";
+import { signInValidator, signUpValidator } from "../validators";
 
 type SignUpType = z.infer<typeof signUpValidator>;
 type SignInType = z.infer<typeof signInValidator>;
@@ -14,7 +19,7 @@ export async function signUpService(res: Response, body: SignUpType) {
   const isUserExist = await findUserByEmail(body.email);
 
   if (isUserExist.length) {
-    throw new Error("User already exists");
+    throw createError("User already exists", 409);
   }
 
   const avatar = getAvatar(body.firstName, body.lastName);
@@ -31,7 +36,7 @@ export async function signUpService(res: Response, body: SignUpType) {
   const newUser = await db.insert(userSchema).values(newUserData).returning();
 
   if (!newUser.length) {
-    throw new Error("signup user error");
+    throw createError("signup user error");
   }
 
   setCookie(res, newUser[0].id);
@@ -52,7 +57,7 @@ export async function signInService(res: Response, body: SignInType) {
   );
 
   if (!findUser.length || !validPassword) {
-    throw new Error("401");
+    throw createError("User not found", 401);
   }
 
   const user = await db.query.users.findFirst({
@@ -60,7 +65,7 @@ export async function signInService(res: Response, body: SignInType) {
   });
 
   if (!user) {
-    throw new Error("401");
+    throw createError("User not found", 401);
   }
 
   setCookie(res, user.id);
