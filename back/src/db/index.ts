@@ -13,10 +13,10 @@ const pool = new Pool({
 });
 
 const combinedSchemas = {
-  ...userSchema,
-  ...messageSchema,
-  ...conversationSchema,
-  ...userConversationSchema,
+  users: userSchema,
+  messages: messageSchema,
+  conversations: conversationSchema,
+  userConversations: userConversationSchema,
 };
 
 const db: NodePgDatabase<typeof combinedSchemas> = drizzle(pool, {
