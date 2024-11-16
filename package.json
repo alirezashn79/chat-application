@@ -4,7 +4,8 @@
   "scripts": {
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "cd front && npm run dev",
-    "start:backend": "cd back && npm run dev"
+    "start:backend": "cd back && npm run dev",
+    "start:db": "cd back && docker-compose up"
   },
   "author": "alirezashn79",
   "devDependencies": {
