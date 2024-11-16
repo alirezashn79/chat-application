@@ -3,12 +3,13 @@ import db from "../db";
 import {
   createError,
   getAvatar,
+  getUserIdFromToken,
   omitFields,
   setCookie,
 } from "../helpers/helper-functions";
 import { compare, genSalt, hash } from "bcryptjs";
 import { Response } from "express";
-import { findUserByEmail } from "../helpers/db-helpers";
+import { findUserByEmail, getAllUsersExceptMe } from "../helpers/db-helpers";
 import { z } from "zod";
 import { signInValidator, signUpValidator } from "../validators";
 
@@ -78,4 +79,16 @@ export async function signInService(res: Response, body: SignInType) {
 export function signOutService(res: Response) {
   res.clearCookie("token");
   return true;
+}
+
+export async function getUsersService(token?: string) {
+  if (!token) {
+    throw createError("Token not found", 401);
+  }
+
+  const userId = getUserIdFromToken(token);
+
+  const allUsers = await getAllUsersExceptMe(userId);
+
+  return allUsers;
 }

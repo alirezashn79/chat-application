@@ -1,5 +1,5 @@
 import { Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { verify } from "jsonwebtoken";
 import { CustomError } from "../types";
 
 export const getAvatar = (firstName: string, lastName: string) => {
@@ -44,4 +44,12 @@ export function createError(message: string, statusCode = 500): CustomError {
   const error: CustomError = new Error(message);
   error.statusCode = statusCode;
   return error;
+}
+
+export function getUserIdFromToken(token: string) {
+  const verifiedToken = verify(token, process.env.JWT_SECRET_KEY!) as {
+    userId: string;
+  };
+
+  return verifiedToken.userId;
 }

@@ -1,6 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { signInValidator, signUpValidator } from "../validators";
-import { signInService, signOutService, signUpService } from "../services/user";
+import {
+  getUsersService,
+  signInService,
+  signOutService,
+  signUpService,
+} from "../services/user";
+import { createError } from "../helpers/helper-functions";
+import { string } from "zod";
 
 export async function signUpController(
   req: Request,
@@ -40,6 +47,20 @@ export async function signOutController(
   try {
     signOutService(res);
     res.status(200).json({ message: "user signed out successfully" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUsersController(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { token } = req.cookies as { token: string | undefined };
+    const users = await getUsersService(token);
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }
