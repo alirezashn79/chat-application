@@ -2,13 +2,6 @@ import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { CustomError } from "../types";
 
-export function handleError(res: Response, error: unknown) {
-  if (error instanceof Error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
-  }
-}
-
 export const getAvatar = (firstName: string, lastName: string) => {
   return `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`;
 };

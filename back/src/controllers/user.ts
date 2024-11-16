@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { handleError } from "../helpers/helper-functions";
 import { signInValidator, signUpValidator } from "../validators";
 import { signInService, signOutService, signUpService } from "../services/user";
 
