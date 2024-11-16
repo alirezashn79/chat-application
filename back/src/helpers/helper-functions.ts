@@ -1,5 +1,6 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
+import { CustomError } from "../types";
 
 export function handleError(res: Response, error: unknown) {
   if (error instanceof Error) {
@@ -44,4 +45,10 @@ export function omitFields<T, K extends keyof T>(
   });
 
   return newObj;
+}
+
+export function createError(message: string, statusCode = 500): CustomError {
+  const error: CustomError = new Error(message);
+  error.statusCode = statusCode;
+  return error;
 }
