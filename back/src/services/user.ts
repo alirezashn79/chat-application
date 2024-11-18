@@ -81,14 +81,6 @@ export function signOutService(res: Response) {
   return true;
 }
 
-export async function getUsersService(token?: string) {
-  if (!token) {
-    throw createError("Token not found", 401);
-  }
-
-  const userId = getUserIdFromToken(token);
-
-  const allUsers = await getAllUsersExceptMe(userId);
-
-  return allUsers;
+export async function getUsersService(userId: string) {
+  return getAllUsersExceptMe(userId);
 }

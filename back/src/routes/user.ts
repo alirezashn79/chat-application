@@ -5,12 +5,13 @@ import {
   signOutController,
   signUpController,
 } from "../controllers/user";
+import { privateRoute } from "../middlewares/privateRoute";
 
 const userRouter = Router();
 
 userRouter.post("/signup", signUpController);
 userRouter.post("/signin", signInController);
 userRouter.post("/signout", signOutController);
-userRouter.get("/all", getUsersController);
+userRouter.get("/all", privateRoute, getUsersController);
 
 export default userRouter;

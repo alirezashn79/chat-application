@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { sendMessageService } from "../services/message";
-import { getUserIdFromToken } from "../helpers/helper-functions";
 import { messageValidator } from "../validators";
+import { CustomRequest } from "../types";
 
 export async function sendMessageController(
   req: Request,
@@ -9,9 +9,8 @@ export async function sendMessageController(
   next: NextFunction,
 ) {
   try {
-    const token = req.cookies.token;
-
-    const senderId = getUserIdFromToken(token);
+    const customReq = req as CustomRequest;
+    const senderId = customReq.user?.id;
     const receiverId = req.params.receiverId;
     const { content } = req.body;
 

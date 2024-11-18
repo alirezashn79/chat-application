@@ -6,8 +6,7 @@ import {
   signOutService,
   signUpService,
 } from "../services/user";
-import { createError } from "../helpers/helper-functions";
-import { string } from "zod";
+import { CustomRequest } from "../types";
 
 export async function signUpController(
   req: Request,
@@ -40,7 +39,7 @@ export async function signInController(
 }
 
 export async function signOutController(
-  req: Request,
+  _: Request,
   res: Response,
   next: NextFunction,
 ) {
@@ -58,8 +57,9 @@ export async function getUsersController(
   next: NextFunction,
 ) {
   try {
-    const { token } = req.cookies as { token: string | undefined };
-    const users = await getUsersService(token);
+    const customReq = req as CustomRequest;
+    const authUserId = customReq.user?.id;
+    const users = await getUsersService(authUserId);
     res.status(200).json(users);
   } catch (error) {
     next(error);
