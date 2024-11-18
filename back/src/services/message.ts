@@ -1,8 +1,8 @@
-import { Response } from "express";
 import {
   createNewConversation,
   createNewMessage,
-  getConversationId,
+  getConversation,
+  getMessages,
 } from "../helpers/db-helpers";
 
 interface MessageDataType {
@@ -11,12 +11,13 @@ interface MessageDataType {
   content: string;
 }
 
-export async function sendMessageService(
-  res: Response,
-  { senderId, receiverId, content }: MessageDataType,
-) {
+export async function sendMessageService({
+  senderId,
+  receiverId,
+  content,
+}: MessageDataType) {
   let conversationId: string;
-  const existingConversation = await getConversationId(senderId, receiverId);
+  const existingConversation = await getConversation(senderId, receiverId);
 
   if (existingConversation) {
     conversationId = existingConversation.id;
@@ -35,4 +36,21 @@ export async function sendMessageService(
   const newMessage = await createNewMessage(newMessageData);
 
   return newMessage;
+}
+
+export async function getMessagesService(userIDs: {
+  senderId: string;
+  receiverId: string;
+}) {
+  const existingConversation = await getConversation(
+    userIDs.senderId,
+    userIDs.receiverId,
+  );
+
+  if (!existingConversation) return [];
+
+  const conversationId = existingConversation.id;
+  const messages = await getMessages(conversationId);
+
+  return messages;
 }

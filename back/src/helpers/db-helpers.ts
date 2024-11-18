@@ -26,7 +26,7 @@ export async function getAllUsersExceptMe(userId: string) {
     .where(ne(userSchema.id, userId));
 }
 
-export async function getConversationId(senderId: string, receiverId: string) {
+export async function getConversation(senderId: string, receiverId: string) {
   const conversation = await db
     .select({ id: userConversationSchema.conversationId })
     .from(userConversationSchema)
@@ -81,4 +81,13 @@ export async function createNewMessage(newMessageData: {
     .returning();
 
   if (newMessage.length) return newMessage[0];
+}
+
+export async function getMessages(conversationId: string) {
+  const messages = db
+    .select()
+    .from(messageSchema)
+    .where(eq(messageSchema.conversationId, conversationId));
+
+  if (messages) return messages;
 }
