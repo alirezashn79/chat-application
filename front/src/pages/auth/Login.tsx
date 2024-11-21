@@ -13,7 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validators";
 import { z } from "zod";
 import AuthCard from "@/components/modules/AuthCard.tsx";
-import { toast } from "sonner";
+import { fireToast } from "@/utils/Toast.tsx";
+import useMutation from "@/hooks/useMutation.ts";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Login() {
   /* ---------- hook ---------- */
@@ -24,17 +27,26 @@ export default function Login() {
       password: "",
     },
   });
+  const { execute, data, loading } = useMutation();
+  const navigate = useNavigate();
 
   /* ---------- handler ---------- */
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
-    toast.success("successfully logged in!", {
-      description: new Date().toLocaleDateString("en-US", {
-        dateStyle: "long",
-      }),
-      position: "top-right",
+    execute({
+      url: "/api/user/signin",
+      body: values,
     });
   };
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/", {
+        replace: true,
+      });
+      fireToast("success", "successfully logged in");
+    }
+  }, [data, navigate]);
 
   return (
     <AuthCard variant="LOGIN">
@@ -75,7 +87,9 @@ export default function Login() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button disabled={loading} type="submit">
+              Submit
+            </Button>
           </form>
         }
       </Form>

@@ -13,7 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/validators";
 import { z } from "zod";
 import AuthCard from "@/components/modules/AuthCard.tsx";
-import { toast } from "sonner";
+import { fireToast } from "@/utils/Toast.tsx";
+import useMutation from "@/hooks/useMutation.ts";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Register() {
   /* ---------- hook ---------- */
@@ -26,17 +29,25 @@ export default function Register() {
       password: "",
     },
   });
+  const { execute, data, loading } = useMutation();
+  const navigate = useNavigate();
 
   /* ---------- handler ---------- */
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
-    toast.success("successfully registered!", {
-      description: new Date().toLocaleDateString("en-US", {
-        dateStyle: "long",
-      }),
-      position: "top-right",
+    execute({
+      url: "/api/user/signup",
+      body: values,
     });
   };
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/", {
+        replace: true,
+      });
+      fireToast("success", "successfully registered!");
+    }
+  }, [data, navigate]);
 
   return (
     <AuthCard variant="REGISTER">
@@ -103,7 +114,9 @@ export default function Register() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button disabled={loading} type="submit">
+              Submit
+            </Button>
           </form>
         }
       </Form>
