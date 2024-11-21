@@ -17,6 +17,8 @@ import { fireToast } from "@/utils/Toast.tsx";
 import useMutation from "@/hooks/useMutation.ts";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { User } from "@/types";
+import { useUserContext } from "@/contexts/user.tsx";
 
 export default function Login() {
   /* ---------- hook ---------- */
@@ -27,8 +29,11 @@ export default function Login() {
       password: "",
     },
   });
-  const { execute, data, loading } = useMutation();
+  const { execute, data, loading } = useMutation<User>();
   const navigate = useNavigate();
+
+  /* ---------- context ---------- */
+  const { setUser } = useUserContext();
 
   /* ---------- handler ---------- */
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
@@ -41,10 +46,11 @@ export default function Login() {
   useEffect(() => {
     if (data) {
       localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
+      fireToast("success", "successfully logged in");
       navigate("/", {
         replace: true,
       });
-      fireToast("success", "successfully logged in");
     }
   }, [data, navigate]);
 

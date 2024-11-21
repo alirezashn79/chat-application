@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import client from "@/configs/axiosRequest.ts";
 import { AxiosError, AxiosResponse } from "axios";
 import { HttpMethod } from "@/types";
@@ -36,7 +36,7 @@ export default function useMutation<T>() {
     }
   };
 
-  const runMutate = (options: MutationOptions) => {
+  const runMutate = useCallback((options: MutationOptions) => {
     setLoading(true);
     handleSuccess(options)
       .catch((error: unknown) => {
@@ -45,7 +45,7 @@ export default function useMutation<T>() {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, []);
 
   /* ---------- life cycle ---------- */
   useEffect(() => {
