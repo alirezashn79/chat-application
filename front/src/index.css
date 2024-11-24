@@ -121,3 +121,10 @@
     @apply bg-background text-foreground;
     }
 }
+
+@layer components {
+    .online:before {
+        content: "";
+        @apply absolute right-0 top-0 size-3 bg-green-500 rounded-full z-10 border border-white;
+    }
+}
