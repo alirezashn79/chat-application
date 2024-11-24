@@ -1,0 +1,9 @@
+.chat {
+  @apply relative h-[calc(100vh-64px)] bg-cover bg-no-repeat;
+}
+.light {
+  @apply bg-chatLight;
+}
+.dark {
+  @apply bg-chatDark;
+}

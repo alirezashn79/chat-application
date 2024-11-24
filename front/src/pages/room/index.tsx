@@ -4,6 +4,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import Sidebar from "@/components/template/room/sidebar/Sidebar.tsx";
+import ChatBox from "@/components/template/room/chatbox/ChatBox.tsx";
 
 export default function RoomPage() {
   return (
@@ -14,7 +15,7 @@ export default function RoomPage() {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={75} minSize={25}>
-          second section
+          <ChatBox />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
