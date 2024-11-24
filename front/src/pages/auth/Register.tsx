@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/validators";
 import { z } from "zod";
-import AuthCard from "@/components/modules/AuthCard.tsx";
+import AuthCard from "@/components/modules/auth/AuthCard.tsx";
 import { fireToast } from "@/utils/Toast.tsx";
 import useMutation from "@/hooks/useMutation.ts";
 import { useNavigate } from "react-router-dom";
