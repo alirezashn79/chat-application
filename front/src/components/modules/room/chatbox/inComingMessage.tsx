@@ -3,8 +3,10 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar.tsx";
+import { Message } from "@/types";
+import { convertDate } from "@/helpers";
 
-export default function InComingMessage() {
+export default function InComingMessage({ message }: { message: Message }) {
   return (
     <div className="flex items-end gap-2.5">
       <Avatar>
@@ -13,9 +15,11 @@ export default function InComingMessage() {
       </Avatar>
 
       <div className="p-2 bg-white rounded-2xl rounded-bl-none">
-        <p>سلام داش خوبی سلامتی؟</p>
+        <p>{message?.content}</p>
         <div className="pt-3 flex justify-end">
-          <span className="text-xs text-muted-foreground">11:51</span>
+          <span className="text-xs text-muted-foreground">
+            {convertDate(message?.createdAt as Date)}
+          </span>
         </div>
       </div>
     </div>
