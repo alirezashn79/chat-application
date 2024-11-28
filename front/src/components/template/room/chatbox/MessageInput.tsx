@@ -1,47 +1,74 @@
-import EmojiPicker from "emoji-picker-react";
-import { Button } from "@/components/ui/button.tsx";
-import { cn } from "@/lib/utils.ts";
-import { SendHorizontal, SmilePlus } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea.tsx";
-import { useState } from "react";
+import { Button } from "@/components/ui/button.tsx";
+import { SendHorizontal } from "lucide-react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import useMutation from "@/hooks/useMutation.ts";
+import { Message } from "@/types";
+import useConversation from "@/store";
 
-export default function MessageInput() {
-  const [messageInput, setMessageInput] = useState<string>("");
-  const [openEmoji, setOpenEmoji] = useState<boolean>(false);
+interface InputMessageProps {
+  newMessage: string;
+  setNewMessage: Dispatch<SetStateAction<string>>;
+  setCursorPosition: Dispatch<SetStateAction<number | null>>;
+}
+
+export default function MessageInput({
+  newMessage,
+  setNewMessage,
+  setCursorPosition,
+}: InputMessageProps) {
+  /* ---------- state ---------- */
+  const [direction, setDirection] = useState<"ltr" | "rtl">("ltr");
+
+  /* ---------- hook ---------- */
+  const { execute } = useMutation<Message>();
+  const { selectedConversation } = useConversation();
+
+  /* ---------- handler ---------- */
+  const onChangeInputMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const isPersian = /[\u0600-\u06FF]/.test(value);
+    setDirection(isPersian ? "rtl" : "ltr");
+    setNewMessage(value);
+  };
+
+  const onSelectInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const position = e.target.selectionStart;
+    setCursorPosition(position);
+  };
+
+  const leftMessage = () => {
+    if (newMessage.trim().length > 0) {
+      execute({
+        url: `/api/message/send/${selectedConversation?.id}`,
+        body: {
+          content: newMessage,
+        },
+      });
+      setNewMessage("");
+    }
+  };
+
   return (
-    <div className="absolute bottom-0 start-0 mb-6 end-0">
-      <EmojiPicker
-        open={openEmoji}
-        onEmojiClick={({ emoji, unified }) => {
-          console.log(unified);
-          setMessageInput((prev) => prev + emoji);
-        }}
-        className="left-24 bottom-1"
+    <>
+      <Textarea
+        value={newMessage}
+        dir={direction}
+        onChange={onChangeInputMessage}
+        onSelect={onSelectInput}
+        className="resize-none rounded-3xl min-h-4 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-transparent transition-all duration-300"
+        placeholder="write message..."
       />
-      <div className="flex items-center justify-between gap-2 px-10">
-        <Button
-          variant="default"
-          className={cn(
-            "rounded-full size-12 bg-white hover:bg-cyan-700 text-cyan-700 hover:text-white",
-            openEmoji && "bg-cyan-700 text-white",
-          )}
-          onClick={() => setOpenEmoji((prev) => !prev)}
-        >
-          <SmilePlus className="size-6 shrink-0" />
-        </Button>
-        <Textarea
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-          className="resize-none rounded-3xl min-h-4 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-transparent"
-          placeholder="write message..."
-        />
+
+      {newMessage.trim().length > 0 && (
         <Button
           variant="ghost"
-          className="rounded-full size-12 bg-cyan-700 text-white"
+          className="rounded-full size-12 bg-cyan-700 text-white transition-all"
+          onClick={leftMessage}
         >
-          <SendHorizontal className="size-6 shrink-0" />
+          <SendHorizontal />
         </Button>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
