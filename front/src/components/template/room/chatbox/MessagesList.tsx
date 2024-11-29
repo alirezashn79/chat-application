@@ -4,13 +4,14 @@ import useSWR from "swr";
 import { Message as MessageType } from "@/types";
 import useConversation from "@/store";
 import client from "@/configs/axiosRequest.ts";
+import { useEffect } from "react";
 
 export default function MessagesList() {
   /* ---------- store ---------- */
-  const { selectedConversation } = useConversation();
+  const { selectedConversation, messages, setMessages } = useConversation();
 
   /* ---------- hook ---------- */
-  const { data: messages } = useSWR<Array<MessageType>>(
+  const { data } = useSWR<Array<MessageType>>(
     `messages/${selectedConversation?.id}`,
     () =>
       client
@@ -18,9 +19,14 @@ export default function MessagesList() {
         .then((res) => res.data),
   );
 
+  /* ---------- life cycle ---------- */
+  useEffect(() => {
+    if (data) setMessages(data);
+  }, [data]);
+
   return (
-    <ScrollArea className="h-full p-4">
-      <div className="flex flex-col gap-y-6">
+    <ScrollArea className="h-full px-4 pt-0.5 pb-[85px]">
+      <div className="flex flex-col gap-y-2">
         {messages?.map((message) => (
           <Message key={message.id} message={message} />
         ))}

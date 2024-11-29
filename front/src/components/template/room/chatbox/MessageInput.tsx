@@ -1,7 +1,13 @@
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { SendHorizontal } from "lucide-react";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import useMutation from "@/hooks/useMutation.ts";
 import { Message } from "@/types";
 import useConversation from "@/store";
@@ -21,8 +27,8 @@ export default function MessageInput({
   const [direction, setDirection] = useState<"ltr" | "rtl">("ltr");
 
   /* ---------- hook ---------- */
-  const { execute } = useMutation<Message>();
-  const { selectedConversation } = useConversation();
+  const { data, execute } = useMutation<Message>();
+  const { messages, setMessages, selectedConversation } = useConversation();
 
   /* ---------- handler ---------- */
   const onChangeInputMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -37,7 +43,7 @@ export default function MessageInput({
     setCursorPosition(position);
   };
 
-  const leftMessage = () => {
+  const leaveMessage = () => {
     if (newMessage.trim().length > 0) {
       execute({
         url: `/api/message/send/${selectedConversation?.id}`,
@@ -45,9 +51,14 @@ export default function MessageInput({
           content: newMessage,
         },
       });
-      setNewMessage("");
     }
   };
+
+  /* ---------- life cycle ---------- */
+  useEffect(() => {
+    if (data) setMessages([...messages, data]);
+    setNewMessage("");
+  }, [data]);
 
   return (
     <>
@@ -64,7 +75,7 @@ export default function MessageInput({
         <Button
           variant="ghost"
           className="rounded-full size-12 bg-cyan-700 text-white transition-all"
-          onClick={leftMessage}
+          onClick={leaveMessage}
         >
           <SendHorizontal />
         </Button>
