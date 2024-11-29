@@ -2,7 +2,7 @@
   "name": "chat-room",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:frontend": "cd front && npm run dev",
     "start:backend": "cd back && npm run dev",
     "start:db": "cd back && docker-compose up"
