@@ -1,13 +1,11 @@
 import express from "express";
-import http from "http";
 import "dotenv/config";
 import cors from "cors";
 import { FRONT_URL } from "./helpers/constants";
 import cookieParser from "cookie-parser";
 import createRouter from "./routes";
 import { errorHandler } from "./middlewares/errorHandler";
-
-const app = express();
+import { app, server } from "./socket";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +20,6 @@ app.use(cookieParser());
 app.use("/api", createRouter());
 app.use(errorHandler);
 
-const server = http.createServer(app);
 const port = Number(process.env.PORT) ?? 3001;
 
 server.listen(port, () => {
