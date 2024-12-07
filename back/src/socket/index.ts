@@ -1,6 +1,7 @@
 import http from "http";
 import express from "express";
 import { Server } from "socket.io";
+import user from "../routes/user";
 
 const app = express();
 
@@ -13,11 +14,23 @@ const io = new Server(server, {
   },
 });
 
+export const onlineUsers: Record<string, string> = {};
+
 io.on("connect", (socket) => {
   console.log("a user connected", socket.id);
 
+  const userId = socket.handshake.query.userId as string;
+
+  if (userId) {
+    onlineUsers[userId] = socket.id;
+  }
+
+  io.emit("getOnlineUsers", Object.keys(onlineUsers));
+
   socket.on("disconnect", () => {
     console.log("a user disconnected", socket.id);
+    delete onlineUsers[userId];
+    io.emit("getOnlineUsers", Object.keys(onlineUsers));
   });
 });
 
