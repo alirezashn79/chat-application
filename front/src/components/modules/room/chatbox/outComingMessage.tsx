@@ -6,14 +6,16 @@ import {
 import { CheckCheck } from "lucide-react";
 import { Message } from "@/types";
 import { convertDate } from "@/helpers";
+import { useUserContext } from "@/contexts/user.tsx";
 
 export default function OutComingMessage({ message }: { message: Message }) {
   /* ---------- context ---------- */
+  const { user } = useUserContext();
 
   return (
     <div className="flex items-end flex-row-reverse gap-2.5">
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarImage src={user?.avatar ?? ""} />
         <AvatarFallback>{""}</AvatarFallback>
       </Avatar>
 

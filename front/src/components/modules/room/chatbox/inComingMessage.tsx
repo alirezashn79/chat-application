@@ -5,12 +5,15 @@ import {
 } from "@/components/ui/avatar.tsx";
 import { Message } from "@/types";
 import { convertDate } from "@/helpers";
+import useConversation from "@/store";
 
 export default function InComingMessage({ message }: { message: Message }) {
+  /* ---------- store ---------- */
+  const { selectedConversation } = useConversation();
   return (
     <div className="flex items-end gap-2.5">
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarImage src={selectedConversation?.avatar ?? ""} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 

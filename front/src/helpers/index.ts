@@ -4,6 +4,12 @@ export function AvatarMaker(firstName: string, lastName: string) {
 
 export function convertDate(value: Date) {
   const dateTime = new Date(value);
-  const time = dateTime.toTimeString().split(" ")[0];
+  const time = dateTime
+    .toLocaleTimeString("fa-ir", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    .split(" ")[0];
   return `${time}`;
 }
