@@ -5,8 +5,12 @@ import { Message as MessageType } from "@/types";
 import useConversation from "@/store";
 import client from "@/configs/axiosRequest.ts";
 import { useEffect } from "react";
+import useListenMessage from "@/hooks/useListenMessage.tsx";
 
 export default function MessagesList() {
+  /* ---------- hook ---------- */
+  useListenMessage();
+
   /* ---------- store ---------- */
   const { selectedConversation, messages, setMessages } = useConversation();
 
