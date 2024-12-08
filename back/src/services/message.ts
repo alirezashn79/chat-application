@@ -4,6 +4,7 @@ import {
   getConversation,
   getMessages,
 } from "../helpers/db-helpers";
+import { sendNewMessageSocket } from "../socket";
 
 interface MessageDataType {
   senderId: string;
@@ -34,6 +35,8 @@ export async function sendMessageService({
   };
 
   const newMessage = await createNewMessage(newMessageData);
+
+  sendNewMessageSocket(newMessage!);
 
   return newMessage;
 }

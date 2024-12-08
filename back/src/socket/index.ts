@@ -1,7 +1,7 @@
 import http from "http";
 import express from "express";
 import { Server } from "socket.io";
-import user from "../routes/user";
+import { NewMessage } from "../db/schemas/message";
 
 const app = express();
 
@@ -14,7 +14,7 @@ const io = new Server(server, {
   },
 });
 
-export const onlineUsers: Record<string, string> = {};
+const onlineUsers: Record<string, string> = {};
 
 io.on("connect", (socket) => {
   console.log("a user connected", socket.id);
@@ -33,5 +33,11 @@ io.on("connect", (socket) => {
     io.emit("getOnlineUsers", Object.keys(onlineUsers));
   });
 });
+
+export function sendNewMessageSocket(newMessage: NewMessage) {
+  const receiverSocketId = onlineUsers[newMessage.receiverId];
+  if (!receiverSocketId) throw new Error("socket error -> newMessage");
+  io.to(receiverSocketId).emit("newMessage", newMessage);
+}
 
 export { app, server, io };
