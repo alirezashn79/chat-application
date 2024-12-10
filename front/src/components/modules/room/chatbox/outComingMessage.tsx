@@ -7,10 +7,13 @@ import { CheckCheck } from "lucide-react";
 import { Message } from "@/types";
 import { convertDate } from "@/helpers";
 import { useUserContext } from "@/contexts/user.tsx";
+import { useThemeContext } from "@/contexts/theme.tsx";
+import { cn } from "@/lib/utils.ts";
 
 export default function OutComingMessage({ message }: { message: Message }) {
   /* ---------- context ---------- */
   const { user } = useUserContext();
+  const { theme } = useThemeContext();
 
   return (
     <div className="flex items-end flex-row-reverse gap-2.5">
@@ -19,9 +22,14 @@ export default function OutComingMessage({ message }: { message: Message }) {
         <AvatarFallback>{""}</AvatarFallback>
       </Avatar>
 
-      <div className="p-2 bg-lime-100 rounded-2xl rounded-br-none">
-        <p>{message?.content}</p>
-        <div className="pt-3 flex items-center  justify-between">
+      <div
+        className={cn(
+          "p-2  rounded-2xl rounded-br-none",
+          theme === "light" ? "bg-lime-100" : "bg-lime-950",
+        )}
+      >
+        <p className="text-primary">{message?.content}</p>
+        <div className="pt-3 flex items-center  justify-between gap-x-1">
           <CheckCheck className="size-4 text-cyan-500" />
           <span className="text-xs text-muted-foreground">
             {convertDate(message?.createdAt as Date)}

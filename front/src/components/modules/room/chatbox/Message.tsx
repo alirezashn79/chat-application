@@ -10,7 +10,6 @@ function Message({ message }: { message: MessageType }) {
 
   /* ---------- constant ---------- */
   const isMe = message?.senderId === user?.id;
-  console.log(message?.senderId, user?.id);
 
   return isMe ? (
     <OutComingMessage message={message} />

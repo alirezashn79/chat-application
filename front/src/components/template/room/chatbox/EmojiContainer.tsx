@@ -1,8 +1,9 @@
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { cn } from "@/lib/utils.ts";
 import { SmilePlus } from "lucide-react";
+import { useThemeContext } from "@/contexts/theme.tsx";
 
 interface EmojiProps {
   newMessage: string;
@@ -18,6 +19,9 @@ export default function EmojiContainer({
 }: EmojiProps) {
   /* ---------- state ---------- */
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
+
+  /* ---------- hook ---------- */
+  const { theme } = useThemeContext();
 
   /* ---------- handler ---------- */
   const onEmojiClick = ({ emoji }: { emoji: string }) => {
@@ -43,14 +47,14 @@ export default function EmojiContainer({
             searchDisabled
             skinTonesDisabled
             onEmojiClick={onEmojiClick}
+            theme={theme === "light" ? Theme.LIGHT : Theme.DARK}
           />
         </div>
       )}
       <Button
         variant="default"
         className={cn(
-          "rounded-full size-12 bg-white hover:bg-cyan-700 text-cyan-700 hover:text-white",
-          openEmoji && "bg-cyan-700 text-white",
+          "rounded-full size-12 bg-primary-foreground text-primary",
         )}
         onClick={() => setOpenEmoji((prev) => !prev)}
       >
