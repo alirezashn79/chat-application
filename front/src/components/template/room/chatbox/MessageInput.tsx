@@ -60,6 +60,12 @@ export default function MessageInput({
     setNewMessage("");
   }, [data]);
 
+  useEffect(() => {
+    if (newMessage.trim().length === 0) {
+      setDirection("ltr");
+    }
+  }, [newMessage]);
+
   return (
     <>
       <Textarea

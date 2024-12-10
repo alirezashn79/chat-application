@@ -6,10 +6,14 @@ import {
 import { Message } from "@/types";
 import { convertDate } from "@/helpers";
 import useConversation from "@/store";
+import { useThemeContext } from "@/contexts/theme.tsx";
+import { cn } from "@/lib/utils.ts";
 
 export default function InComingMessage({ message }: { message: Message }) {
   /* ---------- store ---------- */
   const { selectedConversation } = useConversation();
+  const { theme } = useThemeContext();
+
   return (
     <div className="flex items-end gap-2.5">
       <Avatar>
@@ -17,8 +21,13 @@ export default function InComingMessage({ message }: { message: Message }) {
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
-      <div className="p-2 bg-white rounded-2xl rounded-bl-none">
-        <p>{message?.content}</p>
+      <div
+        className={cn(
+          "p-2  rounded-2xl rounded-bl-none",
+          theme === "light" ? "bg-white" : "bg-primary-foreground",
+        )}
+      >
+        <p className="text-primary">{message?.content}</p>
         <div className="pt-3 flex justify-end">
           <span className="text-xs text-muted-foreground">
             {convertDate(message?.createdAt as Date)}
