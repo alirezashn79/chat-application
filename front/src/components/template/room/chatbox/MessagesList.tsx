@@ -20,7 +20,7 @@ export default function MessagesList() {
     () =>
       client
         .get(`/api/message/get/${selectedConversation?.id}`)
-        .then((res) => res.data),
+        .then((res) => res.data)
   );
 
   /* ---------- life cycle ---------- */
