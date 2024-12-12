@@ -1,4 +1,10 @@
-import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+  boolean,
+} from "drizzle-orm/pg-core";
 import { userSchema } from "./user";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { conversationSchema } from "./conversation";
@@ -15,6 +21,7 @@ const messageSchema = pgTable("messages", {
     .references(() => conversationSchema.id)
     .notNull(),
   content: varchar("content", { length: 256 }).notNull(),
+  isRead: boolean().default(false).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
 });

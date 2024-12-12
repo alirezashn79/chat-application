@@ -1,7 +1,9 @@
-import http from "http";
+import { eq } from "drizzle-orm";
 import express from "express";
+import http from "http";
 import { Server } from "socket.io";
-import { NewMessage } from "../db/schemas/message";
+import db from "../db";
+import { messageSchema, NewMessage } from "../db/schemas/message";
 
 const app = express();
 
@@ -27,6 +29,22 @@ io.on("connect", (socket) => {
 
   io.emit("getOnlineUsers", Object.keys(onlineUsers));
 
+  socket.on("readMessage", async (messageID) => {
+    console.log(messageID);
+
+    const updatedMessage = await db
+      .update(messageSchema)
+      .set({ isRead: true })
+      .where(eq(messageSchema.id, messageID))
+      .returning();
+
+    if (updatedMessage.length > 0) {
+      io.emit("readMessageStatus", {
+        status: "success",
+      });
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("a user disconnected", socket.id);
     delete onlineUsers[userId];
@@ -36,8 +54,8 @@ io.on("connect", (socket) => {
 
 export function sendNewMessageSocket(newMessage: NewMessage) {
   const receiverSocketId = onlineUsers[newMessage.receiverId];
-  if (!receiverSocketId) throw new Error("socket error -> newMessage");
+  if (!receiverSocketId) return;
   io.to(receiverSocketId).emit("newMessage", newMessage);
 }
 
-export { app, server, io };
+export { app, io, server };

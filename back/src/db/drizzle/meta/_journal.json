@@ -15,6 +15,13 @@
       "when": 1731683675893,
       "tag": "0001_absurd_thanos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733838619939,
+      "tag": "0002_hot_sabretooth",
+      "breakpoints": true
     }
   ]
 }
