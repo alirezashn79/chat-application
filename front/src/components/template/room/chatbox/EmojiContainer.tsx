@@ -2,7 +2,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { cn } from "@/lib/utils.ts";
-import { SmilePlus } from "lucide-react";
+import { CircleX, SmilePlus } from "lucide-react";
 import { useThemeContext } from "@/contexts/theme.tsx";
 
 interface EmojiProps {
@@ -52,13 +52,16 @@ export default function EmojiContainer({
         </div>
       )}
       <Button
-        variant="default"
         className={cn(
-          "rounded-full size-12 bg-primary-foreground text-primary",
+          "rounded-full size-12 bg-primary-foreground text-primary hover:bg-primary-foreground"
         )}
         onClick={() => setOpenEmoji((prev) => !prev)}
       >
-        <SmilePlus className="size-6 shrink-0" />
+        {openEmoji ? (
+          <CircleX className="!size-6 shrink-0" />
+        ) : (
+          <SmilePlus className="!size-6 shrink-0" />
+        )}
       </Button>
     </>
   );

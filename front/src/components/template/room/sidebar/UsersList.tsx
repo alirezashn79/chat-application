@@ -54,7 +54,9 @@ export default function UsersList() {
   return (
     <ScrollArea className="h-full pr-2">
       <div className="flex flex-col gap-4">
-        {users?.map((user) => <UserCard key={user.id} user={user} />)}
+        {users?.map((user) => (
+          <UserCard key={user.id} user={user} />
+        ))}
       </div>
     </ScrollArea>
   );

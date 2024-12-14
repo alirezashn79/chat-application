@@ -31,17 +31,17 @@ export default function MenuOptions() {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem>
-            <div className="flex items-center gap-8 p-2 w-full">
+            <div className="flex items-center gap-4 w-full">
               <div>
                 <Avatar className="group-hover:scale-105 duration-100">
-                  <AvatarImage src={user?.avatar ?? ""} />
+                  <AvatarImage src={user?.avatar ?? ""} className="size-9" />
                   <AvatarFallback>
                     {`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}
                   </AvatarFallback>
                 </Avatar>
               </div>
 
-              <p>
+              <p className="text-sm font-semibold">
                 {user?.firstName} {user?.lastName}
               </p>
             </div>
