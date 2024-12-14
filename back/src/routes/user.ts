@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getUserController,
   getUsersController,
   signInController,
   signOutController,
@@ -13,5 +14,6 @@ userRouter.post("/signup", signUpController);
 userRouter.post("/signin", signInController);
 userRouter.post("/signout", signOutController);
 userRouter.get("/all", privateRoute, getUsersController);
+userRouter.get("/:id", privateRoute, getUserController);
 
 export default userRouter;

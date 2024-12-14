@@ -54,7 +54,7 @@ export async function signInService(res: Response, body: SignInType) {
 
   const validPassword = await compare(
     body.password,
-    findUser[0]?.password ?? "",
+    findUser[0]?.password ?? ""
   );
 
   if (!findUser.length || !validPassword) {
@@ -83,4 +83,16 @@ export function signOutService(res: Response) {
 
 export async function getUsersService(userId: string) {
   return getAllUsersExceptMe(userId);
+}
+
+export async function getUserService(userId: string) {
+  if (!userId) throw new Error("user not found");
+
+  const user = await db.query.users.findFirst({
+    where: (user, { eq }) => eq(user.id, userId),
+  });
+
+  if (!user) throw new Error("user not found");
+
+  return omitFields(user, ["password"]);
 }
