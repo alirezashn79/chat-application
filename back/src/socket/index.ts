@@ -4,6 +4,8 @@ import http from "http";
 import { Server } from "socket.io";
 import db from "../db";
 import { messageSchema, NewMessage } from "../db/schemas/message";
+import { userSchema } from "../db/schemas/user";
+import { formatDateToCustomISOString } from "../helpers/helper-functions";
 
 const app = express();
 
@@ -45,10 +47,22 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("disconnect", () => {
-    console.log("a user disconnected", socket.id);
-    delete onlineUsers[userId];
-    io.emit("getOnlineUsers", Object.keys(onlineUsers));
+  socket.on("disconnect", async () => {
+    const now = new Date();
+    const lastSeenTime = formatDateToCustomISOString(now);
+
+    const updateLastSeenUser = await db
+      .update(userSchema)
+      .set({ lastSeenTime })
+      .where(eq(userSchema.id, userId))
+      .returning();
+
+    if (updateLastSeenUser.length > 0) {
+      delete onlineUsers[userId];
+      io.emit("getOnlineUsers", Object.keys(onlineUsers));
+
+      console.log("a user disconnected", socket.id);
+    }
   });
 });
 

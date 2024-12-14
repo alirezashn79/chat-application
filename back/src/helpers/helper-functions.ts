@@ -29,7 +29,7 @@ export function setCookie(res: Response, userId: string) {
 
 export function omitFields<T, K extends keyof T>(
   obj: T,
-  keys: K[],
+  keys: K[]
 ): Omit<T, K> {
   const newObj = { ...obj };
 
@@ -52,4 +52,18 @@ export function getUserIdFromToken(token: string) {
   };
 
   return verifiedToken.userId;
+}
+
+export function formatDateToCustomISOString(date: Date): string {
+  const pad = (n: number): string => n.toString().padStart(2, "0");
+
+  const year = date.getUTCFullYear();
+  const month = pad(date.getUTCMonth() + 1);
+  const day = pad(date.getUTCDate());
+
+  const hours = pad(date.getUTCHours());
+  const minutes = pad(date.getUTCMinutes());
+  const seconds = pad(date.getUTCSeconds());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
