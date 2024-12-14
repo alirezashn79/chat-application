@@ -22,6 +22,27 @@
       "when": 1733838619939,
       "tag": "0002_hot_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734013645169,
+      "tag": "0003_fine_lester",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1734014265882,
+      "tag": "0004_late_firebrand",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1734014802415,
+      "tag": "0005_breezy_amphibian",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ALTER COLUMN "lastSeenTime" SET DATA TYPE timestamp(0);

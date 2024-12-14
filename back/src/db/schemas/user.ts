@@ -1,5 +1,5 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, timestamp } from "drizzle-orm/pg-core";
 
 const userSchema = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -8,6 +8,9 @@ const userSchema = pgTable("users", {
   email: varchar("email", { length: 256 }).notNull().unique(),
   password: varchar("password", { length: 256 }).notNull(),
   avatar: varchar("avatar", { length: 256 }),
+  lastSeenTime: timestamp("lastSeenTime", { mode: "string", precision: 0 })
+    .defaultNow()
+    .notNull(),
 });
 
 type User = Omit<InferSelectModel<typeof userSchema>, "password">;

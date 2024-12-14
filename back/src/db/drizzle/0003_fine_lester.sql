@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "lastSeenTime" timestamp with time zone DEFAULT now() NOT NULL;

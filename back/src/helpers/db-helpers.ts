@@ -21,6 +21,7 @@ export async function getAllUsersExceptMe(userId: string) {
       firstName: userSchema.firstName,
       lastName: userSchema.lastName,
       avatar: userSchema.avatar,
+      lastSeenTime: userSchema.lastSeenTime,
     })
     .from(userSchema)
     .where(ne(userSchema.id, userId));
@@ -39,7 +40,7 @@ export async function getConversation(senderId: string, receiverId: string) {
 
 export async function createNewConversation(
   senderId: string,
-  receiverId: string,
+  receiverId: string
 ) {
   const title = `Conversation between ${senderId} and ${receiverId}`;
   const newConversation = await db
@@ -50,7 +51,7 @@ export async function createNewConversation(
     await createNewUserConversation(
       newConversation[0].id,
       senderId,
-      receiverId,
+      receiverId
     );
     return newConversation[0];
   } else {
@@ -61,7 +62,7 @@ export async function createNewConversation(
 async function createNewUserConversation(
   conversationId: string,
   senderId: string,
-  receiverId: string,
+  receiverId: string
 ) {
   await db.insert(userConversationSchema).values([
     { conversationId, userId: senderId },
