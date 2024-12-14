@@ -73,14 +73,15 @@ export default function MessageInput({
         dir={direction}
         onChange={onChangeInputMessage}
         onSelect={onSelectInput}
-        className="resize-none rounded-3xl min-h-4 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-transparent transition-all duration-300"
+        className="resize-none min-h-min rounded-3xl border-2 border-slate-400 transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
         placeholder="write message..."
       />
 
       {newMessage.trim().length > 0 && (
         <Button
           variant="ghost"
-          className="rounded-full size-12 bg-cyan-700 text-white transition-all"
+          size="icon"
+          className="rounded-full size-12 bg-cyan-700 text-white transition-all shrink-0"
           onClick={leaveMessage}
         >
           <SendHorizontal />

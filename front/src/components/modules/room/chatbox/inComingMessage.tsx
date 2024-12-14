@@ -15,7 +15,7 @@ export default function InComingMessage({ message }: { message: Message }) {
   const { theme } = useThemeContext();
 
   return (
-    <div className="flex items-end gap-2.5">
+    <div className="flex items-end gap-2.5 my-1">
       <Avatar>
         <AvatarImage src={selectedConversation?.avatar ?? ""} />
         <AvatarFallback>CN</AvatarFallback>
@@ -24,7 +24,7 @@ export default function InComingMessage({ message }: { message: Message }) {
       <div
         className={cn(
           "p-2  rounded-2xl rounded-bl-none",
-          theme === "light" ? "bg-white" : "bg-primary-foreground",
+          theme === "light" ? "bg-white" : "bg-primary-foreground"
         )}
       >
         <p className="text-primary">{message?.content}</p>

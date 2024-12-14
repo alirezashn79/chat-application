@@ -22,7 +22,7 @@ export default function OutComingMessage({
   const { theme } = useThemeContext();
 
   return (
-    <div className="flex items-end flex-row-reverse gap-2.5">
+    <div className="flex items-end flex-row-reverse gap-2.5 my-1">
       <Avatar>
         <AvatarImage src={user?.avatar ?? ""} />
         <AvatarFallback>{""}</AvatarFallback>

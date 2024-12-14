@@ -52,9 +52,9 @@ export default function EmojiContainer({
         </div>
       )}
       <Button
-        className={cn(
-          "rounded-full size-12 bg-primary-foreground text-primary hover:bg-primary-foreground"
-        )}
+        variant="outline"
+        size="icon"
+        className="rounded-full p-6 hover:bg-primary-foreground shrink-0"
         onClick={() => setOpenEmoji((prev) => !prev)}
       >
         {openEmoji ? (

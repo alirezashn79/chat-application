@@ -8,8 +8,8 @@ export default function MessageBox() {
   const [cursorPosition, setCursorPosition] = useState<number | null>(null);
 
   return (
-    <div className="absolute bottom-0 start-0 mb-6 end-0">
-      <div className="flex items-center justify-between gap-2 px-10 relative">
+    <div className="absolute bottom-0 start-0 end-0 z-10">
+      <div className="flex items-center justify-between gap-4 px-4 relative bg-primary-foreground py-2">
         <EmojiContainer
           newMessage={newMessage}
           setNewMessage={setNewMessage}

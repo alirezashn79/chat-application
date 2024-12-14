@@ -1,15 +1,17 @@
 import Message from "@/components/modules/room/chatbox/Message.tsx";
-import { ScrollArea } from "@/components/ui/scroll-area.tsx";
-import useSWR from "swr";
-import { Message as MessageType } from "@/types";
-import useConversation from "@/store";
 import client from "@/configs/axiosRequest.ts";
-import { useEffect } from "react";
 import useListenMessage from "@/hooks/useListenMessage.tsx";
+import useConversation from "@/store";
+import { Message as MessageType } from "@/types";
+import { useEffect, useRef } from "react";
+import useSWR from "swr";
 
 export default function MessagesList() {
   /* ---------- hook ---------- */
   useListenMessage();
+
+  /* ---------- store ---------- */
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
   /* ---------- store ---------- */
   const { selectedConversation, messages, setMessages } = useConversation();
@@ -24,17 +26,35 @@ export default function MessagesList() {
   );
 
   /* ---------- life cycle ---------- */
+  useEffect(() => {}, [messages]);
+
   useEffect(() => {
     if (data) setMessages(data);
-  }, [data]);
+  }, [data, setMessages]);
+
+  useEffect(() => {
+    const domNode = lastMessageRef.current;
+
+    if (domNode) {
+      setTimeout(() => {
+        domNode.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "end",
+        });
+      }, 100);
+    }
+  }, [messages]);
 
   return (
-    <ScrollArea className="h-full px-4 pt-0.5 pb-[85px]">
-      <div className="flex flex-col gap-y-2">
+    <div className="relative overflow-y-auto h-full px-4">
+      <div className="flex flex-col">
         {messages?.map((message) => (
-          <Message key={message.id} message={message} />
+          <div key={message.id} ref={lastMessageRef}>
+            <Message message={message} />
+          </div>
         ))}
       </div>
-    </ScrollArea>
+    </div>
   );
 }
