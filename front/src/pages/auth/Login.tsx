@@ -48,9 +48,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(data));
       setUser(data);
       fireToast("success", "successfully logged in");
-      navigate("/", {
-        replace: true,
-      });
+      window.location.replace("/");
     }
   }, [data, navigate]);
 

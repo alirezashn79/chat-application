@@ -1,3 +1,5 @@
+import AuthCard from "@/components/modules/auth/AuthCard.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Form,
   FormControl,
@@ -6,19 +8,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/validators";
-import { z } from "zod";
-import AuthCard from "@/components/modules/auth/AuthCard.tsx";
-import { fireToast } from "@/utils/Toast.tsx";
-import useMutation from "@/hooks/useMutation.ts";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { User } from "@/types";
 import { useUserContext } from "@/contexts/user.tsx";
+import useMutation from "@/hooks/useMutation.ts";
+import { User } from "@/types";
+import { fireToast } from "@/utils/Toast.tsx";
+import { registerSchema } from "@/validators";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export default function Register() {
   /* ---------- hook ---------- */
@@ -32,7 +31,6 @@ export default function Register() {
     },
   });
   const { execute, data, loading } = useMutation<User>();
-  const navigate = useNavigate();
 
   /* ---------- context ---------- */
   const { setUser } = useUserContext();
@@ -52,11 +50,9 @@ export default function Register() {
 
       fireToast("success", "successfully registered!");
 
-      navigate("/", {
-        replace: true,
-      });
+      window.location.replace("/");
     }
-  }, [data, navigate]);
+  }, [data, setUser]);
 
   return (
     <AuthCard variant="REGISTER">

@@ -6,17 +6,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog.tsx";
-import { useUserContext } from "@/contexts/user.tsx";
 import useMutation from "@/hooks/useMutation.ts";
-import { useNavigate } from "react-router-dom";
 
 export default function LogoutComponent() {
-  /* ---------- context ---------- */
-  const { setUser } = useUserContext();
-
   /* ---------- hook ---------- */
   const { execute } = useMutation();
-  const navigate = useNavigate();
 
   /* ---------- handler ---------- */
   const handleLogout = () => {
@@ -24,8 +18,8 @@ export default function LogoutComponent() {
       url: "/api/user/signout",
       body: null,
     });
-    setUser(null);
-    navigate("/login", { replace: true });
+    localStorage.removeItem("user");
+    window.location.replace("/login");
   };
   return (
     <AlertDialogContent>
