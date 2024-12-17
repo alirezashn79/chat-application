@@ -7,5 +7,5 @@ export enum HttpMethod {
   PUT = "put",
   DELETE = "delete",
 }
-
+export type NotificationType = { senderId: string; count: number };
 export type { User, NewUser, Message, NewMessage };

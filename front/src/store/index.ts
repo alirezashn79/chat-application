@@ -1,4 +1,4 @@
-import { Message, User } from "@/types";
+import { Message, NotificationType, User } from "@/types";
 import { create } from "zustand";
 
 interface ConversationStoreType {
@@ -11,8 +11,8 @@ interface ConversationStoreType {
   users: Array<User>;
   setUsers: (users: Array<User>) => void;
   //
-  notifications: Array<string>;
-  setNotifications: (notifications: Array<string>) => void;
+  notifications: Array<NotificationType>;
+  setNotifications: (notifications: Array<NotificationType>) => void;
 }
 
 const useConversation = create<ConversationStoreType>((set) => ({
@@ -27,7 +27,8 @@ const useConversation = create<ConversationStoreType>((set) => ({
   setUsers: (users: Array<User>) => set({ users }),
   //
   notifications: [],
-  setNotifications: (notifications: Array<string>) => set({ notifications }),
+  setNotifications: (notifications: Array<NotificationType>) =>
+    set({ notifications }),
 }));
 
 export default useConversation;
