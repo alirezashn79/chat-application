@@ -34,7 +34,7 @@ export function SocketContextProvider({ children }: { children: ReactNode }) {
   /* ---------- hook ---------- */
   const socketContextProviderValue = useMemo(
     () => ({ socket, onlineUsers }),
-    [socket, onlineUsers],
+    [socket, onlineUsers]
   );
 
   /* ---------- life cycle ---------- */
