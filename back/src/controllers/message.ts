@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { getMessagesService, sendMessageService } from "../services/message";
+import {
+  getMessagesService,
+  sendMessageService,
+  unreadMessagesService,
+} from "../services/message";
 import { messageValidator } from "../validators";
 import { CustomRequest } from "../types";
 
 export async function sendMessageController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) {
   try {
     const customReq = req as CustomRequest;
@@ -27,7 +31,7 @@ export async function sendMessageController(
 export async function getMessagesController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) {
   try {
     const customReq = req as CustomRequest;
@@ -36,6 +40,22 @@ export async function getMessagesController(
     const userIDs = { senderId, receiverId };
     const messages = await getMessagesService(userIDs);
     res.status(200).json(messages);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUnreadMessages(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const customReq = req as CustomRequest;
+    const receiverId = customReq.user?.id;
+
+    const unreadMessages = await unreadMessagesService(receiverId);
+    res.status(200).send(unreadMessages);
   } catch (error) {
     next(error);
   }

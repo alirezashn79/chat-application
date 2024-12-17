@@ -24,7 +24,8 @@ export async function getAllUsersExceptMe(userId: string) {
       lastSeenTime: userSchema.lastSeenTime,
     })
     .from(userSchema)
-    .where(ne(userSchema.id, userId));
+    .where(ne(userSchema.id, userId))
+    .orderBy(userSchema.createdAt);
 }
 
 export async function getConversation(senderId: string, receiverId: string) {
@@ -88,7 +89,8 @@ export async function getMessages(conversationId: string) {
   const messages = db
     .select()
     .from(messageSchema)
-    .where(eq(messageSchema.conversationId, conversationId));
+    .where(eq(messageSchema.conversationId, conversationId))
+    .orderBy(messageSchema.createdAt);
 
   if (messages) return messages;
 }

@@ -1,3 +1,6 @@
+import { and, count, eq } from "drizzle-orm";
+import db from "../db";
+import { messageSchema } from "../db/schemas/message";
 import {
   createNewConversation,
   createNewMessage,
@@ -47,7 +50,7 @@ export async function getMessagesService(userIDs: {
 }) {
   const existingConversation = await getConversation(
     userIDs.senderId,
-    userIDs.receiverId,
+    userIDs.receiverId
   );
 
   if (!existingConversation) return [];
@@ -56,4 +59,26 @@ export async function getMessagesService(userIDs: {
   const messages = await getMessages(conversationId);
 
   return messages;
+}
+
+export async function unreadMessagesService(receiverId: string) {
+  const unreadMessages = await db
+    .select({
+      senderId: messageSchema.senderId,
+      count: count(messageSchema.id),
+    })
+    .from(messageSchema)
+    .where(
+      and(
+        eq(messageSchema.receiverId, receiverId),
+        eq(messageSchema.isRead, false)
+      )
+    )
+    .groupBy(messageSchema.senderId);
+
+  if (unreadMessages.length > 0) {
+    return unreadMessages;
+  } else {
+    return [];
+  }
 }
