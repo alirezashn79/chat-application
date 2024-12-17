@@ -43,6 +43,13 @@
       "when": 1734014802415,
       "tag": "0005_breezy_amphibian",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1734339895849,
+      "tag": "0006_redundant_nomad",
+      "breakpoints": true
     }
   ]
 }

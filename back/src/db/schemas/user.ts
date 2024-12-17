@@ -11,6 +11,7 @@ const userSchema = pgTable("users", {
   lastSeenTime: timestamp("lastSeenTime", { mode: "string", precision: 0 })
     .defaultNow()
     .notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
 });
 
 type User = Omit<InferSelectModel<typeof userSchema>, "password">;
