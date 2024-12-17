@@ -12,6 +12,7 @@ import {
 import useMutation from "@/hooks/useMutation.ts";
 import { Message } from "@/types";
 import useConversation from "@/store";
+import useTypingMessage from "@/hooks/useTypingMessage";
 
 interface InputMessageProps {
   newMessage: string;
@@ -29,6 +30,8 @@ export default function MessageInput({
 
   /* ---------- hook ---------- */
   const textAreaMessageRef = useRef<HTMLTextAreaElement>(null);
+
+  const { handleTyping } = useTypingMessage();
 
   /* ---------- hook ---------- */
   const { data, execute } = useMutation<Message>();
@@ -78,7 +81,10 @@ export default function MessageInput({
         ref={textAreaMessageRef}
         value={newMessage}
         dir={direction}
-        onChange={onChangeInputMessage}
+        onChange={(e) => {
+          onChangeInputMessage(e);
+          handleTyping();
+        }}
         onSelect={onSelectInput}
         className="resize-none min-h-min rounded-3xl border-2 border-slate-400 transition-all duration-300 focus-visible:ring-0 focus-visible:ring-offset-0"
         placeholder="write message..."

@@ -9,11 +9,13 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import client from "@/configs/axiosRequest";
 import { useSocketContext } from "@/contexts/socket";
+import useTypingMessage from "@/hooks/useTypingMessage";
 import useConversation from "@/store";
 import { User } from "@/types";
 import { EllipsisVertical } from "lucide-react";
 import { useEffect, useRef } from "react";
 import useSWR from "swr";
+import { PulseLoader } from "react-spinners";
 
 const fetcher = async (url: string) => {
   const res = await client.get<User>(url);
@@ -30,6 +32,8 @@ export default function ChatHeader() {
     mutate,
     isLoading,
   } = useSWR<User>(`/api/user/${selectedConversation?.id}`, fetcher);
+
+  const { isTyping } = useTypingMessage();
 
   /* ---------- ref ---------- */
   const initialRender = useRef(true);
@@ -82,12 +86,30 @@ export default function ChatHeader() {
             <p className="text-base">
               {user?.firstName} {user?.lastName}
             </p>
-            {isUserOnline ? (
-              <span className="text-green-600 text-xs font-bold">Online</span>
-            ) : (
-              <span className="text-slate-500 text-xs font-bold">
-                Last Seen at {user?.lastSeenTime}
-              </span>
+            {!isTyping &&
+              (isUserOnline ? (
+                <span className="text-green-600 text-xs font-bold">Online</span>
+              ) : (
+                <span className="text-slate-500 text-xs font-bold">
+                  Last Seen at {user?.lastSeenTime}
+                </span>
+              ))}
+
+            {isTyping && (
+              <>
+                <span className=" text-cyan-500 text-xs font-bold pr-2">
+                  is typing{" "}
+                  <i>
+                    <PulseLoader
+                      color="#06b6d4"
+                      margin={1}
+                      size={3}
+                      speedMultiplier={1}
+                      className="translate-y-0.5"
+                    />
+                  </i>
+                </span>
+              </>
             )}
           </div>
         </div>
