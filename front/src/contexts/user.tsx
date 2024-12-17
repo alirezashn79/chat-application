@@ -29,12 +29,12 @@ export function useUserContext() {
 export function UserContextProvider({ children }: UserContextProviderProps) {
   /* ---------- hook ---------- */
   const [user, setUser] = useState<User | null>(
-    JSON.parse(localStorage.getItem("user")! ?? null),
+    JSON.parse(localStorage.getItem("user")! ?? null)
   );
 
   const userContextProviderValue = useMemo(
     () => ({ user, setUser }),
-    [user, setUser],
+    [user, setUser]
   );
 
   return (

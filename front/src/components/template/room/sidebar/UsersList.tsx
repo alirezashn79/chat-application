@@ -1,21 +1,29 @@
 import UserCard from "@/components/modules/room/sidebar/UserCard.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
-import useSWR from "swr";
-import client from "@/configs/axiosRequest.ts";
-import { User } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
-import { Frown } from "lucide-react";
+import client from "@/configs/axiosRequest.ts";
+import useNotification from "@/hooks/useNotification";
 import useConversation from "@/store";
+import { User } from "@/types";
+import { Frown } from "lucide-react";
 import { useEffect } from "react";
+import useSWR from "swr";
 
 export default function UsersList() {
   /* ---------- store ---------- */
-  const { users, setUsers } = useConversation();
+  const { users, setUsers, notifications } = useConversation();
 
   /* ---------- hook ---------- */
   const { data, isLoading } = useSWR<Array<User>>("users", () => {
     return client.get("/api/user/all").then((res) => res.data);
   });
+
+  useNotification();
+
+  /* ---------- constant ---------- */
+  const userNotifications = (userId: string) => {
+    return notifications?.find((item) => item.senderId === userId);
+  };
 
   /* ---------- life cycle ---------- */
   useEffect(() => {
@@ -55,7 +63,11 @@ export default function UsersList() {
     <ScrollArea className="h-full pr-2">
       <div className="flex flex-col gap-4">
         {users?.map((user) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard
+            key={user.id}
+            user={user}
+            notifications={userNotifications(user.id)}
+          />
         ))}
       </div>
     </ScrollArea>
