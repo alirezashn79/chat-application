@@ -70,6 +70,7 @@ export function sendNewMessageSocket(newMessage: NewMessage) {
   const receiverSocketId = onlineUsers[newMessage.receiverId];
   if (!receiverSocketId) return;
   io.to(receiverSocketId).emit("newMessage", newMessage);
+  io.emit("notifications");
 }
 
 export { app, io, server };
