@@ -26,8 +26,6 @@ export default function MessagesList() {
   );
 
   /* ---------- life cycle ---------- */
-  useEffect(() => {}, [messages]);
-
   useEffect(() => {
     if (data) setMessages(data);
   }, [data, setMessages]);
@@ -47,7 +45,7 @@ export default function MessagesList() {
   }, [messages]);
 
   return (
-    <div className="relative overflow-y-auto h-full px-4">
+    <div className="relative overflow-y-auto h-[calc(100vh-64px-85px)] px-4">
       <div className="flex flex-col">
         {messages?.map((message) => (
           <div key={message.id} ref={lastMessageRef}>

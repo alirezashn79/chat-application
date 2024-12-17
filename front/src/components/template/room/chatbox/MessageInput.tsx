@@ -6,6 +6,7 @@ import {
   Dispatch,
   SetStateAction,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import useMutation from "@/hooks/useMutation.ts";
@@ -25,6 +26,9 @@ export default function MessageInput({
 }: InputMessageProps) {
   /* ---------- state ---------- */
   const [direction, setDirection] = useState<"ltr" | "rtl">("ltr");
+
+  /* ---------- hook ---------- */
+  const textAreaMessageRef = useRef<HTMLTextAreaElement>(null);
 
   /* ---------- hook ---------- */
   const { data, execute } = useMutation<Message>();
@@ -58,6 +62,7 @@ export default function MessageInput({
   useEffect(() => {
     if (data) setMessages([...messages, data]);
     setNewMessage("");
+    textAreaMessageRef.current?.focus();
   }, [data]);
 
   useEffect(() => {
@@ -69,6 +74,8 @@ export default function MessageInput({
   return (
     <>
       <Textarea
+        autoFocus
+        ref={textAreaMessageRef}
         value={newMessage}
         dir={direction}
         onChange={onChangeInputMessage}
