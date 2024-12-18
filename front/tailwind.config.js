@@ -54,7 +54,7 @@ export default {
       },
       backgroundImage: {
         chatLight: "url('/images/chat-background-light.webp')",
-        chatDark: "url('./public/images/chat-background-dark.webp')",
+        chatDark: "url('/images/chat-background-dark.webp')",
       },
     },
   },

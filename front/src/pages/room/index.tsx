@@ -10,7 +10,7 @@ export default function RoomPage() {
   return (
     <div className="h-screen">
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={25} minSize={15}>
+        <ResizablePanel defaultSize={25} minSize={20}>
           <Sidebar />
         </ResizablePanel>
         <ResizableHandle withHandle />

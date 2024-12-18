@@ -50,7 +50,6 @@ export default function ChatHeader() {
       return;
     }
     if (!isUserOnline) {
-      console.log("mutate");
       mutate();
     }
   }, [isUserOnline, mutate]);
@@ -90,8 +89,16 @@ export default function ChatHeader() {
               (isUserOnline ? (
                 <span className="text-green-600 text-xs font-bold">Online</span>
               ) : (
-                <span className="text-slate-500 text-xs font-bold">
-                  Last Seen at {user?.lastSeenTime}
+                <span dir="rtl" className="text-slate-500 text-xs font-bold">
+                  آخرین بازدید{" "}
+                  {new Date(user!.lastSeenTime).toLocaleString("fa-ir", {
+                    hour: "2-digit",
+                    hour12: false,
+                    minute: "2-digit",
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </span>
               ))}
 
