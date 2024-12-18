@@ -7,6 +7,7 @@ import useConversation from "@/store";
 import { Message as MessageType } from "@/types";
 import { useEffect, useRef } from "react";
 import useSWR from "swr";
+import NoMessages from "./NoMessages";
 
 export default function MessagesList() {
   /* ---------- ref ---------- */
@@ -74,13 +75,17 @@ export default function MessagesList() {
 
   return (
     <div className="relative overflow-y-auto h-[calc(100vh-64px-85px)] px-4">
-      <div className="flex flex-col">
-        {messages?.map((message) => (
-          <div key={message.id} ref={lastMessageRef}>
-            <Message message={message} />
-          </div>
-        ))}
-      </div>
+      {messages.length > 0 ? (
+        <div className="flex flex-col">
+          {messages?.map((message) => (
+            <div key={message.id} ref={lastMessageRef}>
+              <Message message={message} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <NoMessages />
+      )}
     </div>
   );
 }
