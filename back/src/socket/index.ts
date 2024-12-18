@@ -5,7 +5,6 @@ import { Server, Socket } from "socket.io";
 import db from "../db";
 import { messageSchema, NewMessage } from "../db/schemas/message";
 import { userSchema } from "../db/schemas/user";
-import { formatDateToCustomISOString } from "../helpers/helper-functions";
 
 const app = express();
 
@@ -71,7 +70,7 @@ function readMessageSocket(socket: Socket) {
 async function disconnectSocket(socket: Socket) {
   const userId = socket.handshake.query.userId as string;
   const now = new Date();
-  const lastSeenTime = formatDateToCustomISOString(now);
+  const lastSeenTime = new Date();
 
   const updateLastSeenUser = await db
     .update(userSchema)

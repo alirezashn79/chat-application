@@ -50,6 +50,13 @@
       "when": 1734339895849,
       "tag": "0006_redundant_nomad",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1734456708571,
+      "tag": "0007_rare_beast",
+      "breakpoints": true
     }
   ]
 }
