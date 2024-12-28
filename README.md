@@ -1,6 +1,15 @@
 # 🚀 Chat Room Project
 
-Welcome to the **Chat Room Project**! This is a real-time chat application built with modern web technologies, enabling seamless communication between users. Dive into the codebase or spin up the project to see it in action! 🌟
+Welcome to the **FullStack Chat Room Project**! This is a real-time chat application built with modern web technologies, enabling seamless communication between users. Dive into the codebase or spin up the project to see it in action! 🌟
+
+---
+
+## 📸 Screenshots
+
+## ![Chat UI Screenshot Light Mode](./assets/screenShots/Vite-React-TS.webp)
+
+![Chat UI Screenshot Dark Mode](./assets/screenShots/Vite-React-TS-dark.webp)
+
 
 ---
 
@@ -108,16 +117,6 @@ Visit `http://localhost:3000` to see the app in action! 🎉
 
 ---
 
-## 🧪 Testing
-
-- **Frontend**: Run ESLint for linting:
-  ```bash
-  npm run lint
-  ```
-- **Backend**: Unit tests coming soon!
-
----
-
 ## 🤝 Contributing
 
 We welcome contributions! Follow these steps:
@@ -140,14 +139,6 @@ This project is licensed under the **ISC License**. Feel free to use, modify, an
 
 **Alirezashn79**\
 Feel free to reach out for any questions or collaboration opportunities! ✨
-
----
-
-## 📸 Screenshots
-
-## ![Chat UI Screenshot Light Mode](./assets/screenShots/Vite-React-TS.webp)
-
-![Chat UI Screenshot Dark Mode](./assets/screenShots/Vite-React-TS-dark.webp)
 
 ---
 
