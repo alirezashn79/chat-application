@@ -1,4 +1,4 @@
-# 🚀 Chat Application Project
+# 🚀 Chat Application
 
 Welcome to the **FullStack Chat Room Project**! This is a real-time chat application built with modern web technologies, enabling seamless communication between users. Dive into the codebase or spin up the project to see it in action! 
 
